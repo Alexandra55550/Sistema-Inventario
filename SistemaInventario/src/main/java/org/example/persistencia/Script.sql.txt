@@ -1,0 +1,20 @@
+CREATE DATABASE InventarioDB;
+GO
+
+USE InventarioDB;
+GO
+
+CREATE TABLE productos (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    nombre NVARCHAR(100) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    cantidad INT NOT NULL
+);
+
+CREATE TABLE Users (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name VARCHAR(100) NOT NULL,
+    passwordHash VARCHAR(64) NOT NULL,
+    email VARCHAR(200) NOT NULL UNIQUE,
+    status TINYINT NOT NULL
+);

@@ -22,7 +22,7 @@ public class ConnectionManager {
      * - user=dev : Nombre de usuario para la autenticación.
      * - password=dev : Contraseña para la autenticación.
      */
-    private static final String STR_CONNECTION = "jdbc:sqlserver://DESKTOP-RLS545P:1433; " +
+    private static final String STR_CONNECTION = "jdbc:sqlserver://SONIALENOVO\\SQLEXPRESS:1433; " +
             "encrypt=true; " +
             "database=InventarioDB; " +
             "trustServerCertificate=true;" +

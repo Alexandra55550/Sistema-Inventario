@@ -25,3 +25,10 @@ CREATE TABLE proveedores (
     email NVARCHAR(100)
 );
 
+CREATE TABLE empleados (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    nombre NVARCHAR(100) NOT NULL,
+    puesto NVARCHAR(50),
+    fechaingreso DATE
+);
+

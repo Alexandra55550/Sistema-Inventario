@@ -18,3 +18,10 @@ CREATE TABLE Users (
     email VARCHAR(200) NOT NULL UNIQUE,
     status TINYINT NOT NULL
 );
+CREATE TABLE proveedores (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    nombre NVARCHAR(100) NOT NULL,
+    telefono NVARCHAR(20),
+    email NVARCHAR(100)
+);
+

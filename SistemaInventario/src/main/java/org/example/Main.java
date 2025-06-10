@@ -2,19 +2,24 @@ package org.example;
 
 import org.example.presentacion.LoginForm;
 import org.example.presentacion.MainForm;
+import org.example.presentacion.ProductoForm; // Importa ProductoForm
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(() -> {
-            // Utiliza el hilo de despacho de eventos (Event Dispatch Thread - EDT) para asegurar
-            // que todas las operaciones relacionadas con la interfaz gráfica de usuario (Swing)
-            // se realicen de forma segura y sin bloqueos.
-            MainForm mainForm  = new MainForm(); // Crea una nueva instancia del formulario principal de la aplicación.
-            mainForm.setVisible(true); // Hace visible el formulario principal. Inicialmente podría estar vacío o tener una interfaz de carga.
-            LoginForm loginForm = new LoginForm(mainForm); // Crea una nueva instancia del formulario de inicio de sesión, pasándole la instancia del formulario principal como padre. Esto  para centrar la ventana de inicio de sesión relativa a la principal o para pasar datos entre ellas.
-            loginForm.setVisible(true); // Hace visible la ventana de inicio de sesión, solicitando al usuario que ingrese sus credenciales.
+            // Instancia y muestra MainForm
+            MainForm mainForm  = new MainForm();
+            mainForm.setVisible(true);
+
+            // Instancia y muestra LoginForm
+            LoginForm loginForm = new LoginForm(mainForm);
+            loginForm.setVisible(true);
+
+            // Instancia y muestra ProductoForm
+            ProductoForm productoForm = new ProductoForm();
+            productoForm.setVisible(true);
         });
     }
 }

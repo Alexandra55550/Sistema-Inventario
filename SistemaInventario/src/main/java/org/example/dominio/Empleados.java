@@ -6,16 +6,16 @@ public class Empleados {
     private int id;
     private String nombre;
     private String puesto;
-    private LocalDate fechaIngreso;
+    private LocalDate fechaingreso;
 
     public Empleados() {
     }
 
-    public Empleados(int id, String nombre, String puesto, LocalDate fechaIngreso) {
+    public Empleados(int id, String nombre, String puesto, LocalDate fechaingreso) {
         this.id = id;
         this.nombre = nombre;
         this.puesto = puesto;
-        this.fechaIngreso = fechaIngreso;
+        this.fechaingreso = fechaingreso;
     }
 
     public int getId() {
@@ -43,11 +43,11 @@ public class Empleados {
     }
 
     public LocalDate getFechaIngreso() {
-        return fechaIngreso;
+        return fechaingreso;
     }
 
-    public void setFechaIngreso(LocalDate fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
+    public void setFechaIngreso(LocalDate fechaingreso) {
+        this.fechaingreso = fechaingreso;
     }
 }
 

@@ -73,5 +73,12 @@ public class MainForm extends JFrame {
             ProveedoresForm proveedoresForm = new ProveedoresForm();
             proveedoresForm.setVisible(true);
         });
+        // Agregamos correctamente el ítem de empleados
+        JMenuItem itemEmpleados = new JMenuItem("Empleados");
+        menuMantenimiento.add(itemEmpleados);
+        itemEmpleados.addActionListener(e -> {
+            EmpleadosForm empleadosForm = new EmpleadosForm();
+            empleadosForm.setVisible(true);
+        });
     }
 }

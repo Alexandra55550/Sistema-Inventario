@@ -65,5 +65,13 @@ public class MainForm extends JFrame {
             ProductoForm productoForm = new ProductoForm();
             productoForm.setVisible(true);
         });
+
+        // Aquí agregamos la opción Proveedores
+        JMenuItem itemProveedores = new JMenuItem("Proveedores");
+        menuMantenimiento.add(itemProveedores);
+        itemProveedores.addActionListener(e -> {
+            ProveedoresForm proveedoresForm = new ProveedoresForm();
+            proveedoresForm.setVisible(true);
+        });
     }
 }

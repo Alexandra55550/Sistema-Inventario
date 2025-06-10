@@ -76,7 +76,7 @@ public class ProductoForm extends JFrame {
         btnCreate = new JButton("Crear");
         btnUpdate = new JButton("Actualizar");
         btnDelete = new JButton("Eliminar");
-        btnCancel = new JButton("Cancelar");
+        btnCancel = new JButton("Limpiar");
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         panelBotones.add(btnCreate);

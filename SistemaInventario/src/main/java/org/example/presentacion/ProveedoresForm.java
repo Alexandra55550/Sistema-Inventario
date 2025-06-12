@@ -34,23 +34,27 @@ public class ProveedoresForm extends JFrame {
 
     private void initComponents() {
         mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(new Color(245, 245, 245)); // Fondo claro
 
         JPanel panelFormulario = new JPanel(new GridBagLayout());
+        panelFormulario.setBackground(new Color(255, 255, 255)); // Fondo blanco
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Formulario Proveedores"));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(8, 8, 8, 8);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Etiquetas
         JLabel lblNombre = new JLabel("Nombre:");
-        JLabel lblTelefono = new JLabel("Telefono:");
+        lblNombre.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        JLabel lblTelefono = new JLabel("Teléfono:");
+        lblTelefono.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         JLabel lblEmail = new JLabel("Email:");
+        lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        // Campos de texto
         txtNombre = new JTextField(20);
         txtTelefono = new JTextField(20);
-        txtEmail = new JTextField(15);
+        txtEmail = new JTextField(20);
 
-        // Posicionamiento
         gbc.gridx = 0; gbc.gridy = 0;
         panelFormulario.add(lblNombre, gbc);
         gbc.gridx = 1;
@@ -66,35 +70,49 @@ public class ProveedoresForm extends JFrame {
         gbc.gridx = 1;
         panelFormulario.add(txtEmail, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.weighty = 0.1;
-        panelFormulario.add(Box.createVerticalStrut(15), gbc);
-
-        // Botones
         btnCreate = new JButton("Crear");
         btnUpdate = new JButton("Actualizar");
         btnDelete = new JButton("Eliminar");
         btnCancel = new JButton("Limpiar");
 
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        JButton[] botones = {btnCreate, btnUpdate, btnDelete, btnCancel};
+        for (JButton btn : botones) {
+            btn.setFocusPainted(false);
+            btn.setBackground(new Color(70, 130, 180));
+            btn.setForeground(Color.WHITE);
+            btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+            btn.setPreferredSize(new Dimension(110, 30));
+            btn.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 40)));
+        }
+
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        panelBotones.setBackground(new Color(245, 245, 245));
         panelBotones.add(btnCreate);
         panelBotones.add(btnUpdate);
         panelBotones.add(btnDelete);
         panelBotones.add(btnCancel);
 
-        // Tabla
-        modeloTabla = new DefaultTableModel(new Object[]{"ID", "Nombre", "Telefono", "Email"}, 0) {
+        modeloTabla = new DefaultTableModel(new Object[]{"ID", "Nombre", "Teléfono", "Email"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+
         tblProveedores = new JTable(modeloTabla);
+        tblProveedores.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        tblProveedores.setRowHeight(25);
+        tblProveedores.getTableHeader().setBackground(new Color(100, 149, 237));
+        tblProveedores.getTableHeader().setForeground(Color.WHITE);
+        tblProveedores.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tblProveedores.setSelectionBackground(new Color(220, 220, 250));
+
         JScrollPane scrollPane = new JScrollPane(tblProveedores);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Lista de Proveedores"));
 
         JPanel panelArriba = new JPanel(new BorderLayout());
-        panelArriba.add(panelFormulario, BorderLayout.NORTH);
+        panelArriba.setBackground(new Color(245, 245, 245));
+        panelArriba.add(panelFormulario, BorderLayout.CENTER);
         panelArriba.add(panelBotones, BorderLayout.SOUTH);
 
         mainPanel.add(panelArriba, BorderLayout.NORTH);

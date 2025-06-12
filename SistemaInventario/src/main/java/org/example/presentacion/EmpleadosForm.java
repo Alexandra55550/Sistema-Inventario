@@ -14,12 +14,11 @@ import java.util.List;
 public class EmpleadosForm extends JFrame {
 
     private JPanel mainPanel;
-    private JTextField txtNombre, txtPuesto, txtFechaingreso; // variable con i minúscula
+    private JTextField txtNombre, txtPuesto, txtFechaingreso;
     private JButton btnCreate, btnUpdate, btnDelete, btnCancel;
     private JTable tblEmpleados;
     private DefaultTableModel modeloTabla;
     private EmpleadosDAO empleadosDAO;
-    private Object fechaingreso;
 
     public EmpleadosForm() {
         super("Gestión de Empleados");
@@ -48,7 +47,7 @@ public class EmpleadosForm extends JFrame {
 
         txtNombre = new JTextField(20);
         txtPuesto = new JTextField(20);
-        txtFechaingreso = new JTextField(15); // debe coincidir con el campo declarado
+        txtFechaingreso = new JTextField(15);
 
         gbc.gridx = 0; gbc.gridy = 0;
         panelFormulario.add(lblNombre, gbc);
@@ -63,7 +62,7 @@ public class EmpleadosForm extends JFrame {
         gbc.gridx = 0; gbc.gridy = 2;
         panelFormulario.add(lblFechaingreso, gbc);
         gbc.gridx = 1;
-        panelFormulario.add(txtFechaingreso, gbc); // uso correcto del nombre de variable
+        panelFormulario.add(txtFechaingreso, gbc);
 
         gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
@@ -74,6 +73,16 @@ public class EmpleadosForm extends JFrame {
         btnUpdate = new JButton("Actualizar");
         btnDelete = new JButton("Eliminar");
         btnCancel = new JButton("Limpiar");
+
+        // Estilo azul como en el formulario de productos
+        Color azulBoton = new Color(0, 123, 255);
+        Color blanco = Color.WHITE;
+        JButton[] botones = {btnCreate, btnUpdate, btnDelete, btnCancel};
+        for (JButton boton : botones) {
+            boton.setBackground(azulBoton);
+            boton.setForeground(blanco);
+            boton.setFocusPainted(false);
+        }
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         panelBotones.add(btnCreate);
@@ -87,8 +96,16 @@ public class EmpleadosForm extends JFrame {
                 return false;
             }
         };
+
         tblEmpleados = new JTable(modeloTabla);
+
+// 🎨 Estilo de encabezado de tabla (azul con letras blancas)
+        tblEmpleados.getTableHeader().setBackground(new Color(0, 123, 255));
+        tblEmpleados.getTableHeader().setForeground(Color.WHITE);
+        tblEmpleados.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+
         JScrollPane scrollPane = new JScrollPane(tblEmpleados);
+
 
         JPanel panelArriba = new JPanel(new BorderLayout());
         panelArriba.add(panelFormulario, BorderLayout.NORTH);
@@ -157,7 +174,7 @@ public class EmpleadosForm extends JFrame {
                 return;
             }
 
-            Empleados empleados = new Empleados(id, nombre, puesto, fechaingreso );
+            Empleados empleados = new Empleados(id, nombre, puesto, fechaingreso);
             boolean exito = empleadosDAO.update(empleados);
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Empleado actualizado.");
@@ -203,7 +220,7 @@ public class EmpleadosForm extends JFrame {
 
     private void listarEmpleados() {
         try {
-            List<Empleados> empleados = empleadosDAO.search(""); // buscar todos
+            List<Empleados> empleados = empleadosDAO.search("");
             cargarTabla(empleados);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al listar empleados: " + ex.getMessage());

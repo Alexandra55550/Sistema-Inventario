@@ -1,11 +1,13 @@
 package org.example.presentacion;
 
 import javax.swing.*;
+import java.awt.*;
 import org.example.dominio.User;
 
 public class MainForm extends JFrame {
 
     private User userAutenticate;
+    private JLabel lblWelcome;
 
     public User getUserAutenticate() {
         return userAutenticate;
@@ -15,19 +17,28 @@ public class MainForm extends JFrame {
         this.userAutenticate = userAutenticate;
     }
 
-    public MainForm(){
-        setTitle("Sistema en java de escritorio");
+    public MainForm() {
+        setTitle("Sistema de Inventario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // pantalla completa
         setLocationRelativeTo(null);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        createMenu();
+        getContentPane().setBackground(Color.WHITE); // fondo blanco
+
+        createMenu();  // menú de navegación
+        createWelcomePanel(); // mensaje de bienvenida
     }
 
     private void createMenu() {
         JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(new Color(0, 102, 204)); // azul fuerte
+        menuBar.setForeground(Color.WHITE);
         setJMenuBar(menuBar);
 
+        Font menuFont = new Font("Segoe UI", Font.BOLD, 14);
+
         JMenu menuPerfil = new JMenu("Perfil");
+        menuPerfil.setForeground(Color.WHITE);
+        menuPerfil.setFont(menuFont);
         menuBar.add(menuPerfil);
 
         JMenuItem itemChangePassword = new JMenuItem("Cambiar contraseña");
@@ -49,6 +60,8 @@ public class MainForm extends JFrame {
         itemSalir.addActionListener(e -> System.exit(0));
 
         JMenu menuMantenimiento = new JMenu("Mantenimientos");
+        menuMantenimiento.setForeground(Color.WHITE);
+        menuMantenimiento.setFont(menuFont);
         menuBar.add(menuMantenimiento);
 
         JMenuItem itemUsers = new JMenuItem("Usuarios");
@@ -58,7 +71,6 @@ public class MainForm extends JFrame {
             userReadingForm.setVisible(true);
         });
 
-        // Aquí agregamos la opción Producto
         JMenuItem itemProducto = new JMenuItem("Producto");
         menuMantenimiento.add(itemProducto);
         itemProducto.addActionListener(e -> {
@@ -66,19 +78,31 @@ public class MainForm extends JFrame {
             productoForm.setVisible(true);
         });
 
-        // Aquí agregamos la opción Proveedores
         JMenuItem itemProveedores = new JMenuItem("Proveedores");
         menuMantenimiento.add(itemProveedores);
         itemProveedores.addActionListener(e -> {
             ProveedoresForm proveedoresForm = new ProveedoresForm();
             proveedoresForm.setVisible(true);
         });
-        // Agregamos correctamente el ítem de empleados
+
         JMenuItem itemEmpleados = new JMenuItem("Empleados");
         menuMantenimiento.add(itemEmpleados);
         itemEmpleados.addActionListener(e -> {
             EmpleadosForm empleadosForm = new EmpleadosForm();
             empleadosForm.setVisible(true);
         });
+    }
+
+    private void createWelcomePanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new GridBagLayout());
+
+        lblWelcome = new JLabel("Bienvenidos al sistema de inventario");
+        lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        lblWelcome.setForeground(new Color(0, 102, 204)); // azul bonito
+
+        panel.add(lblWelcome);
+        getContentPane().add(panel, BorderLayout.CENTER);
     }
 }

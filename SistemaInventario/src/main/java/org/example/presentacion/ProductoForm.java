@@ -26,31 +26,46 @@ public class ProductoForm extends JFrame {
         initEvents();
         listarProductos();
 
-        setContentPane(mainPanel); // importante
+        setContentPane(mainPanel);
         setSize(700, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void initComponents() {
-        mainPanel = new JPanel(new BorderLayout(10,10));
+        // Colores y fuente según estilo de proveedores
+        Color fondo = new Color(245, 245, 245);
+        Color azul = new Color(70, 130, 180);
+        Color verde = new Color(70, 130, 180);
+        Color rojo = new Color(70, 130, 180);
+        Color gris = new Color(70, 130, 180);
+        Font fontLabel = new Font("Segoe UI", Font.PLAIN, 14);
+
+        mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(fondo);
 
         JPanel panelFormulario = new JPanel(new GridBagLayout());
+        panelFormulario.setBackground(fondo);
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Formulario Productos"));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
+        gbc.insets = new Insets(8, 8, 8, 8);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Etiquetas
         JLabel lblNombre = new JLabel("Nombre:");
         JLabel lblPrecio = new JLabel("Precio:");
         JLabel lblCantidad = new JLabel("Cantidad:");
+        lblNombre.setFont(fontLabel);
+        lblPrecio.setFont(fontLabel);
+        lblCantidad.setFont(fontLabel);
 
-        // Campos de texto
         txtNombre = new JTextField(20);
         txtPrecio = new JTextField(10);
         txtCantidad = new JTextField(10);
+        txtNombre.setFont(fontLabel);
+        txtPrecio.setFont(fontLabel);
+        txtCantidad.setFont(fontLabel);
 
-        // Posicionando etiquetas y campos
         gbc.gridx = 0; gbc.gridy = 0;
         panelFormulario.add(lblNombre, gbc);
         gbc.gridx = 1;
@@ -66,42 +81,52 @@ public class ProductoForm extends JFrame {
         gbc.gridx = 1;
         panelFormulario.add(txtCantidad, gbc);
 
-        // Espaciador vertical
-        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.weighty = 0.1;
-        panelFormulario.add(Box.createVerticalStrut(15), gbc);
+        btnCreate = makeStyledButton("Crear");
+        btnUpdate = makeStyledButton("Actualizar");
+        btnDelete = makeStyledButton("Eliminar");
+        btnCancel = makeStyledButton("Limpiar");
 
-        // Botones
-        btnCreate = new JButton("Crear");
-        btnUpdate = new JButton("Actualizar");
-        btnDelete = new JButton("Eliminar");
-        btnCancel = new JButton("Limpiar");
-
-        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        panelBotones.setBackground(fondo);
         panelBotones.add(btnCreate);
         panelBotones.add(btnUpdate);
         panelBotones.add(btnDelete);
         panelBotones.add(btnCancel);
 
-        // Tabla productos
         modeloTabla = new DefaultTableModel(new Object[]{"ID", "Nombre", "Precio", "Cantidad"}, 0) {
-            @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         tblProductos = new JTable(modeloTabla);
-        JScrollPane scrollPane = new JScrollPane(tblProductos);
+        tblProductos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        tblProductos.setRowHeight(25);
+        tblProductos.getTableHeader().setBackground(new Color(100, 149, 237));
+        tblProductos.getTableHeader().setForeground(Color.WHITE);
+        tblProductos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tblProductos.setSelectionBackground(new Color(100, 149, 237));
 
-        // --- Aquí el cambio para arreglar layout ---
+        JScrollPane scrollPane = new JScrollPane(tblProductos);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Lista de Productos"));
+
         JPanel panelArriba = new JPanel(new BorderLayout());
-        panelArriba.add(panelFormulario, BorderLayout.NORTH);
+        panelArriba.setBackground(fondo);
+        panelArriba.add(panelFormulario, BorderLayout.CENTER);
         panelArriba.add(panelBotones, BorderLayout.SOUTH);
 
         mainPanel.add(panelArriba, BorderLayout.NORTH);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-        // --------------------------------------------
+    }
+
+    private JButton makeStyledButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(70, 130, 180));
+        btn.setForeground(Color.WHITE);
+        btn.setPreferredSize(new Dimension(110, 30));
+        btn.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 40)));
+        return btn;
     }
 
     private void initEvents() {
@@ -127,18 +152,12 @@ public class ProductoForm extends JFrame {
             String nombre = txtNombre.getText().trim();
             double precio = Double.parseDouble(txtPrecio.getText().trim());
             int cantidad = Integer.parseInt(txtCantidad.getText().trim());
-
-            if (nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
-                return;
-            }
-
+            if (nombre.isEmpty()) { JOptionPane.showMessageDialog(this, "El nombre es obligatorio."); return; }
             Producto producto = new Producto(0, nombre, precio, cantidad);
             Producto creado = productoDAO.create(producto);
             if (creado != null) {
                 JOptionPane.showMessageDialog(this, "Producto creado con ID: " + creado.getId());
-                limpiarCampos();
-                listarProductos();
+                limpiarCampos(); listarProductos();
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Precio y cantidad deben ser números válidos.");
@@ -150,27 +169,17 @@ public class ProductoForm extends JFrame {
     private void actualizarProducto() {
         try {
             int fila = tblProductos.getSelectedRow();
-            if (fila < 0) {
-                JOptionPane.showMessageDialog(this, "Seleccione un producto para actualizar.");
-                return;
-            }
+            if (fila < 0) { JOptionPane.showMessageDialog(this, "Seleccione un producto para actualizar."); return; }
             int id = (int) modeloTabla.getValueAt(fila, 0);
-
             String nombre = txtNombre.getText().trim();
             double precio = Double.parseDouble(txtPrecio.getText().trim());
             int cantidad = Integer.parseInt(txtCantidad.getText().trim());
-
-            if (nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El nombre es obligatorio.");
-                return;
-            }
-
+            if (nombre.isEmpty()) { JOptionPane.showMessageDialog(this, "El nombre es obligatorio."); return; }
             Producto producto = new Producto(id, nombre, precio, cantidad);
             boolean exito = productoDAO.update(producto);
             if (exito) {
                 JOptionPane.showMessageDialog(this, "Producto actualizado.");
-                limpiarCampos();
-                listarProductos();
+                limpiarCampos(); listarProductos();
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo actualizar el producto.");
             }
@@ -184,12 +193,8 @@ public class ProductoForm extends JFrame {
     private void eliminarProducto() {
         try {
             int fila = tblProductos.getSelectedRow();
-            if (fila < 0) {
-                JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar.");
-                return;
-            }
+            if (fila < 0) { JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar."); return; }
             int id = (int) modeloTabla.getValueAt(fila, 0);
-
             int confirm = JOptionPane.showConfirmDialog(this,
                     "¿Está seguro de eliminar el producto con ID " + id + "?",
                     "Confirmar eliminación",
@@ -200,8 +205,7 @@ public class ProductoForm extends JFrame {
                 boolean exito = productoDAO.delete(producto);
                 if (exito) {
                     JOptionPane.showMessageDialog(this, "Producto eliminado.");
-                    limpiarCampos();
-                    listarProductos();
+                    limpiarCampos(); listarProductos();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se pudo eliminar el producto.");
                 }
@@ -213,7 +217,7 @@ public class ProductoForm extends JFrame {
 
     private void listarProductos() {
         try {
-            List<Producto> productos = productoDAO.search(""); // buscar todos
+            List<Producto> productos = productoDAO.search("");
             cargarTabla(productos);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al listar productos: " + ex.getMessage());
@@ -223,12 +227,7 @@ public class ProductoForm extends JFrame {
     private void cargarTabla(List<Producto> productos) {
         modeloTabla.setRowCount(0);
         for (Producto p : productos) {
-            modeloTabla.addRow(new Object[]{
-                    p.getId(),
-                    p.getNombre(),
-                    p.getPrecio(),
-                    p.getCantidad()
-            });
+            modeloTabla.addRow(new Object[]{ p.getId(), p.getNombre(), p.getPrecio(), p.getCantidad() });
         }
     }
 
